@@ -9,8 +9,6 @@ const stylesDir = path.join(__dirname, "styles");
 const assetsDir = path.join(__dirname, "assets");
 
 async function buildTemplate() {
-  await fs.promises.mkdir(outputDir, { recursive: true });
-
   let template = (await fs.promises.readFile(templateFile)).toString();
   const componentFiles = await fs.promises.readdir(componentsDir);
   for (const file of componentFiles) {
@@ -69,6 +67,7 @@ async function copyAssets(rootDir, outputDir) {
 
 async function run() {
   await fs.promises.rm(outputDir, { recursive: true });
+  await fs.promises.mkdir(outputDir, { recursive: true });
   buildTemplate();
   buildStyles();
   copyAssets(assetsDir, path.join(outputDir, "assets"));
